@@ -4,6 +4,10 @@ on:
   push: { branches: ["main"] }
   workflow_dispatch:
 
+# 생성한 github-metrics.svg를 기본 토큰으로 이 저장소에 커밋한다
+permissions:
+  contents: write
+
 jobs:
   github-metrics:
     runs-on: ubuntu-latest
