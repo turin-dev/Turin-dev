@@ -1,93 +1,60 @@
-<div align="center">
+# turin
 
-<!-- Typing animation header -->
-[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&pause=1000&color=6E40C9&center=true&vCenter=true&width=600&lines=Hi+there%2C+I'm+Turin+%F0%9F%91%8B;Full-Stack+Developer;Open+Source+Enthusiast;Always+Learning+%F0%9F%9A%80)](https://git.io/typing-svg)
+**아이디어에서 운영까지, 서비스를 끝까지 만듭니다.**
 
-<br/>
+백엔드 중심 풀스택 개발자입니다. 학교생활 통합 플랫폼 **SCIN**을 직접 기획하고, 만들고, 배포하고, 운영하고 있습니다.
+화면 뒤의 API · 데이터 · 인프라를 설계하는 일을 가장 좋아합니다.
 
-<!-- Social badges -->
-[![GitHub followers](https://img.shields.io/github/followers/turin-dev?style=for-the-badge&logo=github&color=6E40C9)](https://github.com/turin-dev)
-[![Profile views](https://komarev.com/ghpvc/?username=turin-dev&style=for-the-badge&color=6E40C9)](https://github.com/turin-dev)
-
-</div>
+[turin.my](https://turin.my) · [scin.kr](https://scin.kr) · [me@turin.my](mailto:me@turin.my)
 
 ---
 
-## 🙋‍♂️ About Me
+## Currently building — SCIN (스인)
 
-```yaml
-name:     Turin
-located:  Korea 🇰🇷
-focus:    Full-Stack Development & Open Source
-learning: Always something new...
-hobbies:  [Coding, Problem Solving, Coffee ☕]
+> 학생이 학교생활에 필요한 정보를 여러 곳에서 찾지 않고, 하나의 서비스에서 확인하도록 만든 학교생활 통합 플랫폼
+
+- 나이스(NEIS) 교육정보 API로 전국 **13,309개 학교**의 급식 · 시간표 · 학사일정을 가져오고, 그 위에 공지 · 과제 · 공부 타이머 · 성적 · 독서 기록 · 알림을 얹었습니다.
+- 중앙 API 하나를 웹 · Flutter 앱이 함께 쓰고, 인증(OAuth · 전화번호 인증 · RBAC · 보호자 동의 · Redis 세션)은 직접 만들었습니다.
+- `main` push 한 번에 Dokploy 자동 배포와 GitHub Actions(셀프호스트 러너) CI가 함께 돌고, 앱은 GitHub Release로 APK가 배포됩니다.
+- 레포 커밋 1,000+ · 하루 최대 방문자 300
+
+```text
+Web (scin.kr) ──┐                    ┌── Auth (OAuth · RBAC)
+                ├──► SCIN API ───────┼── PostgreSQL (Prisma)
+Mobile (Flutter)┘    api.scin.kr     ├── Redis (세션 · 캐시)
+                                     └── NEIS 교육정보 API
 ```
 
----
+| 시기 | 변화 |
+| --- | --- |
+| 2026.03 | 서비스별 앱과 공유 패키지를 하나의 저장소로 — 모노레포 전환, Railway 첫 배포 |
+| 2026.04 | Expo/EAS + GitHub Actions로 Android APK 빌드 자동화 |
+| 2026.04 – 06 | Flutter로 앱 재구축 (5탭 구조, NEIS 영양 · 알레르기 정보) |
+| 2026.06 | Railway → Ship → Dokploy(셀프호스트 PaaS)로 이관 |
+| 2026.09 | 앱 중심 대개편 — 10개가 넘던 웹 앱을 중앙 API · 랜딩 · 관리자 · Flutter 앱으로 정리 |
 
-## 🛠️ Tech Stack
+## Dmail — 팀 마쉬메로우 (2025.08 –)
 
-### Languages
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+Discord에서 Gmail · IMAP 새 메일 알림을 받고 메일을 보내는 서비스입니다. 개인 공개봇 'E-mail봇'으로 시작해 팀 마쉬메로우의 Dmail로 키웠고, 주 개발자로 봇 · 사용자 웹 · 관리자 대시보드를 만들었습니다.
 
-### Frameworks & Tools
-![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+- **v2 (2026.08)** — TypeScript로 다시 설계: discord.js 봇 · Fastify API · 독립 메일 워커를 PostgreSQL · Redis · BullMQ로 연결
+- **Durable Outbox** — 메일 저장과 전달 작업을 같은 PostgreSQL 트랜잭션에 기록하고 워커가 재시도하며 전달
+- **Lease Token** — 오래된 워커 작업이 새 작업을 덮어쓰거나 완료 처리하지 못하게 막음
+- **Encrypted Body** — 수신 메일 본문은 암호화해 저장하고, 전달 큐에는 본문 대신 outbox ID만
 
-### Databases & Cloud
-![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
+## Stack
 
----
+실제로 쓰고 운영하는 도구들입니다.
 
-## 📊 GitHub Stats
+| 영역 | |
+| --- | --- |
+| Backend · API | TypeScript · Node.js · Next.js · Python · FastAPI |
+| Data · Queue | PostgreSQL · Prisma · Drizzle · Redis · BullMQ |
+| App · Web | Flutter · Android · React · Tailwind · Discord bots |
+| Infra · Ops | Docker · Dokploy · Cloudflare (DNS · WAF · R2) · Linux · WireGuard · nftables · Grafana · GitHub Actions |
 
-<div align="center">
+## Contact
 
-<img height="180em" src="https://github-readme-stats.vercel.app/api?username=turin-dev&show_icons=true&theme=tokyonight&include_all_commits=true&count_private=true&hide_border=true"/>
-<img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=turin-dev&layout=compact&theme=tokyonight&hide_border=true&langs_count=8"/>
+함께 만들 서비스가 있거나 개발 이야기를 하고 싶다면 편하게 연락해 주세요.
 
-</div>
-
-<div align="center">
-
-[![GitHub Streak](https://streak-stats.demolab.com?user=turin-dev&theme=tokyonight&hide_border=true&date_format=Y.n.j)](https://git.io/streak-stats)
-
-</div>
-
----
-
-## 🏆 GitHub Trophies
-
-<div align="center">
-
-[![trophy](https://github-profile-trophy-liard-delta.vercel.app//?username=turin-dev&theme=tokyonight&no-frame=true&row=1&column=7)](https://github.com/ryo-ma/github-profile-trophy)
-
-</div>
-
----
-
-## 📈 Contribution Graph
-
-<div align="center">
-
-[![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=turin-dev&theme=tokyo-night&hide_border=true)](https://github.com/ashutosh00710/github-readme-activity-graph)
-
-</div>
-
----
-
-<div align="center">
-
-**⭐ Star my repos if you find them useful!**
-
-*"First, solve the problem. Then, write the code." – John Johnson*
-
-</div>
+**[me@turin.my](mailto:me@turin.my)** · **[turin.my](https://turin.my)**
