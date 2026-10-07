@@ -22,6 +22,5 @@ jobs:
             html, css
           plugin_languages_limit: 6
           plugin_followup: yes
-          plugin_habits: yes
-          plugin_habits_charts: yes
+          # plugin_habits는 이벤트 데이터 오류로 이미지에 "Unexpected error"를 그려서 꺼 둔다
           plugin_traffic: yes
